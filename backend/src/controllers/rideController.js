@@ -82,8 +82,68 @@ const acceptRide = async (req, res) => {
   }
 };
 
+const startRide = async (req, res) => {
+  try {
+
+    const rideId = req.params.id;
+
+    const result = await pool.query(
+      `UPDATE rides
+       SET status = 'ongoing'
+       WHERE id = $1
+       RETURNING *`,
+      [rideId]
+    );
+
+    res.json({
+      message: "Ride started",
+      ride: result.rows[0]
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      error: error.message
+    });
+
+  }
+};
+
+const completeRide = async (req, res) => {
+  try {
+
+    const rideId = req.params.id;
+
+    const result = await pool.query(
+      `UPDATE rides
+       SET status = 'completed'
+       WHERE id = $1
+       RETURNING *`,
+      [rideId]
+    );
+
+    res.json({
+      message: "Ride completed",
+      ride: result.rows[0]
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      error: error.message
+    });
+
+  }
+};
+
 module.exports = {
   bookRide,
   getPendingRides,
-  acceptRide
+  acceptRide,
+  startRide,
+  completeRide
 };

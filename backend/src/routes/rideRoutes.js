@@ -6,7 +6,9 @@ const verifyToken = require("../middleware/authMiddleware");
 const {
   bookRide,
   getPendingRides,
-  acceptRide
+  acceptRide,
+  startRide,
+  completeRide
 } = require("../controllers/rideController");
 
 router.post(
@@ -25,6 +27,18 @@ router.patch(
   "/:id/accept",
   verifyToken,
   acceptRide
+);
+
+router.patch(
+  "/:id/start",
+  verifyToken,
+  startRide
+);
+
+router.patch(
+  "/:id/complete",
+  verifyToken,
+  completeRide
 );
 
 module.exports = router;
