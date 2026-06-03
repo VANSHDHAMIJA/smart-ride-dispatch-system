@@ -50,12 +50,28 @@ const getPendingRides = async (req, res) => {
 
   }
 };
-
 const acceptRide = async (req, res) => {
   try {
 
     const rideId = req.params.id;
     const captainId = req.user.id;
+
+    const ride = await pool.query(
+      "SELECT * FROM rides WHERE id = $1",
+      [rideId]
+    );
+
+    if (ride.rows.length === 0) {
+      return res.status(404).json({
+        message: "Ride not found"
+      });
+    }
+
+    if (ride.rows[0].status !== "pending") {
+      return res.status(400).json({
+        message: "Ride already accepted"
+      });
+    }
 
     const result = await pool.query(
       `UPDATE rides
@@ -82,6 +98,32 @@ const acceptRide = async (req, res) => {
   }
 };
 
+const getMyRides = async (req, res) => {
+  try {
+
+    const riderId = req.user.id;
+
+    const result = await pool.query(
+      `SELECT *
+       FROM rides
+       WHERE rider_id = $1
+       ORDER BY created_at DESC`,
+      [riderId]
+    );
+
+    res.json(result.rows);
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      error: error.message
+    });
+
+  }
+};
+
 const startRide = async (req, res) => {
   try {
 
@@ -94,6 +136,8 @@ const startRide = async (req, res) => {
        RETURNING *`,
       [rideId]
     );
+
+
 
     res.json({
       message: "Ride started",
@@ -140,10 +184,38 @@ const completeRide = async (req, res) => {
   }
 };
 
+const getMyTrips = async (req, res) => {
+  try {
+
+    const captainId = req.user.id;
+
+    const result = await pool.query(
+      `SELECT *
+       FROM rides
+       WHERE captain_id = $1
+       ORDER BY created_at DESC`,
+      [captainId]
+    );
+
+    res.json(result.rows);
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      error: error.message
+    });
+
+  }
+};
+
 module.exports = {
   bookRide,
   getPendingRides,
   acceptRide,
   startRide,
-  completeRide
+  completeRide,
+  getMyRides,
+  getMyTrips
 };

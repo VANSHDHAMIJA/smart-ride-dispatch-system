@@ -8,7 +8,9 @@ const {
   getPendingRides,
   acceptRide,
   startRide,
-  completeRide
+  completeRide,
+  getMyRides,
+  getMyTrips
 } = require("../controllers/rideController");
 
 router.post(
@@ -43,6 +45,19 @@ router.patch(
   verifyToken,
   authorizeRole("captain"),
   completeRide
+);
+
+router.get(
+  "/my-rides",
+  verifyToken,
+  getMyRides
+);
+
+router.get(
+  "/my-trips",
+  verifyToken,
+  authorizeRole("captain"),
+  getMyTrips
 );
 
 module.exports = router;
