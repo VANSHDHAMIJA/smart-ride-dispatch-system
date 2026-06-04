@@ -4,7 +4,9 @@ import RiderDashboard from "./pages/RiderDashboard";
 
 function App() {
 
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(
+    !!localStorage.getItem("token")
+  );
 
   if (loggedIn) {
     return <RiderDashboard />;

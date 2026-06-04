@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import RideHistory from "./RideHistory";
 
 function RiderDashboard() {
 
@@ -12,7 +13,7 @@ function RiderDashboard() {
 
       const token = localStorage.getItem("token");
 
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:5000/api/rides/book",
         {
           pickup_location: pickup,
@@ -27,7 +28,10 @@ function RiderDashboard() {
 
       alert("Ride Booked Successfully");
 
-      console.log(response.data);
+      setPickup("");
+      setDrop("");
+
+      window.location.reload();
 
     } catch (error) {
 
@@ -38,10 +42,26 @@ function RiderDashboard() {
     }
   };
 
+  const logout = () => {
+
+    localStorage.removeItem("token");
+
+    window.location.reload();
+
+  };
+
   return (
     <div>
 
-      <h2>Rider Dashboard</h2>
+      <h1>Rider Dashboard</h1>
+
+      <button onClick={logout}>
+        Logout
+      </button>
+
+      <hr />
+
+      <h2>Book Ride</h2>
 
       <input
         type="text"
@@ -64,6 +84,10 @@ function RiderDashboard() {
       <button onClick={bookRide}>
         Book Ride
       </button>
+
+      <hr />
+
+      <RideHistory />
 
     </div>
   );
