@@ -19,9 +19,16 @@ function Login({ setLoggedIn }) {
       );
 
       localStorage.setItem(
-        "token",
-        response.data.token
-      );setLoggedIn(true);
+  "token",
+  response.data.token
+);
+
+localStorage.setItem(
+  "user",
+  JSON.stringify(response.data.user)
+);
+
+setLoggedIn(true);
 
       alert("Login Successful");
 
@@ -29,11 +36,13 @@ function Login({ setLoggedIn }) {
 
     } catch (error) {
 
-      console.error(error);
+  console.error(error);
 
-      alert("Login Failed");
+  console.log(error.response);
 
-    }
+  alert("Login Failed");
+
+}
   };
 
   return (

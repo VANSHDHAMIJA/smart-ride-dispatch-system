@@ -1,6 +1,8 @@
 import { useState } from "react";
+
 import Login from "./pages/Login";
 import RiderDashboard from "./pages/RiderDashboard";
+import CaptainDashboard from "./pages/CaptainDashboard";
 
 function App() {
 
@@ -8,11 +10,19 @@ function App() {
     !!localStorage.getItem("token")
   );
 
-  if (loggedIn) {
-    return <RiderDashboard />;
+  if (!loggedIn) {
+    return <Login setLoggedIn={setLoggedIn} />;
   }
 
-  return <Login setLoggedIn={setLoggedIn} />;
+  const user = JSON.parse(
+    localStorage.getItem("user")
+  );
+
+  if (user?.role === "captain") {
+    return <CaptainDashboard />;
+  }
+
+  return <RiderDashboard />;
 }
 
 export default App;

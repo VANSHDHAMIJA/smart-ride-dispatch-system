@@ -56,6 +56,22 @@ const acceptRide = async (req, res) => {
     const rideId = req.params.id;
     const captainId = req.user.id;
 
+    // Check if captain already has an active ride
+    const activeRide = await pool.query(
+      `SELECT *
+       FROM rides
+       WHERE captain_id = $1
+       AND status IN ('accepted', 'ongoing')`,
+      [captainId]
+    );
+
+    if (activeRide.rows.length > 0) {
+      return res.status(400).json({
+        message: "Complete your current ride before accepting another one"
+      });
+    }
+
+    // Check if ride exists
     const ride = await pool.query(
       "SELECT * FROM rides WHERE id = $1",
       [rideId]
@@ -67,12 +83,14 @@ const acceptRide = async (req, res) => {
       });
     }
 
+    // Check if ride is still pending
     if (ride.rows[0].status !== "pending") {
       return res.status(400).json({
         message: "Ride already accepted"
       });
     }
 
+    // Accept ride
     const result = await pool.query(
       `UPDATE rides
        SET captain_id = $1,
