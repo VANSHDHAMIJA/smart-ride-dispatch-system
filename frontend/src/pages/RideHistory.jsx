@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import "../Dashboard.css";
 
 function RideHistory() {
 
   const [rides, setRides] = useState([]);
+  const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
     fetchRides();
@@ -33,22 +35,51 @@ function RideHistory() {
     }
   };
 
+  const displayedRides = showAll
+    ? rides
+    : rides.filter(
+        (ride) => ride.status === "accepted"
+      );
+
   return (
-    <div>
+    <div className="card">
 
       <h2>My Rides</h2>
 
-      {rides.map((ride) => (
-        <div key={ride.id}>
-          <p>
-            {ride.pickup_location} → {ride.drop_location}
-          </p>
+      <br />
 
-          <p>Status: {ride.status}</p>
+      <button
+        className="primary-btn"
+        onClick={() => setShowAll(!showAll)}
+      >
+        {showAll
+          ? "Show Ongoing Only"
+          : "Show All Rides"}
+      </button>
 
-          <hr />
-        </div>
-      ))}
+      <br />
+      <br />
+
+      {displayedRides.length === 0 ? (
+        <p>No ongoing rides</p>
+      ) : (
+        displayedRides.map((ride) => (
+          <div
+            key={ride.id}
+            className="ride-card"
+          >
+
+            <h4>
+              {ride.pickup_location} → {ride.drop_location}
+            </h4>
+
+            <p>
+              Status: {ride.status}
+            </p>
+
+          </div>
+        ))
+      )}
 
     </div>
   );

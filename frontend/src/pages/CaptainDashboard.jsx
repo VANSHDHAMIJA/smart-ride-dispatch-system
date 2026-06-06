@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import CaptainTrips from "./CaptainTrips";
+import "../Dashboard.css";
+import { FaUserTie } from "react-icons/fa";
+
 function CaptainDashboard() {
 
   const [rides, setRides] = useState([]);
@@ -33,81 +36,105 @@ function CaptainDashboard() {
     }
   };
 
-const acceptRide = async (rideId) => {
+  const acceptRide = async (rideId) => {
 
-  try {
+    try {
 
-    const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token");
 
-    await axios.patch(
-      `http://localhost:5000/api/rides/${rideId}/accept`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
+      await axios.patch(
+        `http://localhost:5000/api/rides/${rideId}/accept`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
         }
-      }
-    );
+      );
 
-    alert("Ride Accepted");
+      alert("Ride Accepted");
 
-    fetchPendingRides();
+      fetchPendingRides();
 
-  } catch (error) {
+    } catch (error) {
 
-    console.error(error);
+      console.error(error);
 
-    alert(
-  error.response?.data?.message ||
-  "Failed To Accept Ride"
-);
+      alert(
+        error.response?.data?.message ||
+        "Failed To Accept Ride"
+      );
 
-  }
-};
+    }
+  };
 
-const logout = () => {
+  const logout = () => {
 
-  localStorage.removeItem("token");
-  localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
 
-  window.location.reload();
+    window.location.href = "/login";
 
-};
+  };
 
   return (
-    <div>
+    <div className="dashboard">
 
-      <h1>Captain Dashboard</h1>
-      <button onClick={logout}>
-  Logout
-</button>
-      <h2>Pending Rides</h2>
+      <div className="navbar">
 
-      {rides.map((ride) => (
-  <div key={ride.id}>
+        <div className="nav-left">
+          <h1>
+            <FaUserTie /> Captain Dashboard
+          </h1>
+        </div>
 
-    <p>
-      {ride.pickup_location} → {ride.drop_location}
-    </p>
+        <div className="nav-right">
+          <button onClick={logout}>
+            Logout
+          </button>
+        </div>
 
-    <p>
-      Status: {ride.status}
-    </p>
+      </div>
 
-    <button
-      onClick={() => acceptRide(ride.id)}
-    >
-      Accept Ride
-    </button>
+      <div className="card">
 
-    <hr />
+        <h2>Pending Rides</h2>
 
-  </div>
-))}
+        <br />
 
-<hr />
+        {rides.length === 0 ? (
+          <p>No pending rides available</p>
+        ) : (
+          rides.map((ride) => (
+            <div
+              key={ride.id}
+              className="ride-card"
+            >
 
-<CaptainTrips />
+              <h4>
+                {ride.pickup_location} → {ride.drop_location}
+              </h4>
+
+              <p>
+                Status: {ride.status}
+              </p>
+
+              <br />
+
+              <button
+                className="primary-btn"
+                onClick={() => acceptRide(ride.id)}
+              >
+                Accept Ride
+              </button>
+
+            </div>
+          ))
+        )}
+
+      </div>
+
+      <CaptainTrips />
 
     </div>
   );

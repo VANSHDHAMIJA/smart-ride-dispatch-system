@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import RideHistory from "./RideHistory";
+import "../Dashboard.css";
+import { FaUser } from "react-icons/fa";
 
 function RiderDashboard() {
 
@@ -47,44 +49,63 @@ function RiderDashboard() {
   localStorage.removeItem("token");
   localStorage.removeItem("user");
 
-  window.location.reload();
+  window.location.href = "/login";
 
 };
 
   return (
-    <div>
+  <div>
 
-      <h1>Rider Dashboard</h1>
+      <div className="navbar">
 
-      <button onClick={logout}>
-        Logout
-      </button>
+  <div className="nav-left">
+    <h1>
+      <FaUser /> Rider Dashboard
+    </h1>
+  </div>
+
+  <div className="nav-right">
+    <button onClick={logout}>
+      Logout
+    </button>
+  </div>
+
+</div>
 
       <hr />
 
-      <h2>Book Ride</h2>
+      <div className="card">
 
-      <input
-        type="text"
-        placeholder="Pickup Location"
-        value={pickup}
-        onChange={(e) => setPickup(e.target.value)}
-      />
+  <h2>Book a Ride</h2>
 
-      <br /><br />
+  <br />
 
-      <input
-        type="text"
-        placeholder="Drop Location"
-        value={drop}
-        onChange={(e) => setDrop(e.target.value)}
-      />
+  <div className="input-group">
 
-      <br /><br />
+    <input
+      type="text"
+      placeholder="Pickup Location"
+      value={pickup}
+      onChange={(e) => setPickup(e.target.value)}
+    />
 
-      <button onClick={bookRide}>
-        Book Ride
-      </button>
+    <input
+      type="text"
+      placeholder="Drop Location"
+      value={drop}
+      onChange={(e) => setDrop(e.target.value)}
+    />
+
+    <button
+      className="primary-btn"
+      onClick={bookRide}
+    >
+      Book Ride
+    </button>
+
+  </div>
+
+</div>
 
       <hr />
 

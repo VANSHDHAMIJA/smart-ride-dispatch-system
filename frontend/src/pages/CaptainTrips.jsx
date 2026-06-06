@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import "../Dashboard.css";
 
 function CaptainTrips() {
 
   const [trips, setTrips] = useState([]);
+  const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
     fetchTrips();
@@ -91,42 +93,71 @@ function CaptainTrips() {
     }
   };
 
+  const displayedTrips = showAll
+    ? trips
+    : trips.filter(
+        (trip) =>
+          trip.status === "accepted" ||
+          trip.status === "ongoing"
+      );
+
   return (
-    <div>
+    <div className="card">
 
       <h2>My Trips</h2>
 
-      {trips.map((trip) => (
-        <div key={trip.id}>
+      <br />
 
-          <p>
-            {trip.pickup_location} → {trip.drop_location}
-          </p>
+      <button
+        className="primary-btn"
+        onClick={() => setShowAll(!showAll)}
+      >
+        {showAll
+          ? "Show Active Trips Only"
+          : "Show All Trips"}
+      </button>
 
-          <p>
-            Status: {trip.status}
-          </p>
+      <br />
+      <br />
 
-          {trip.status === "accepted" && (
-            <button
-              onClick={() => startRide(trip.id)}
-            >
-              Start Ride
-            </button>
-          )}
+      {displayedTrips.length === 0 ? (
+        <p>No active trips</p>
+      ) : (
+        displayedTrips.map((trip) => (
+          <div
+            key={trip.id}
+            className="ride-card"
+          >
 
-          {trip.status === "ongoing" && (
-            <button
-              onClick={() => completeRide(trip.id)}
-            >
-              Complete Ride
-            </button>
-          )}
+            <h4>
+              {trip.pickup_location} → {trip.drop_location}
+            </h4>
 
-          <hr />
+            <p>
+              Status: {trip.status}
+            </p>
 
-        </div>
-      ))}
+            {trip.status === "accepted" && (
+              <button
+                className="primary-btn"
+                onClick={() => startRide(trip.id)}
+              >
+                Start Ride
+              </button>
+            )}
+
+            {trip.status === "ongoing" && (
+              <button
+                className="primary-btn"
+                onClick={() => completeRide(trip.id)}
+              >
+                Complete Ride
+              </button>
+            )}
+
+          </div>
+        ))
+      )}
 
     </div>
   );

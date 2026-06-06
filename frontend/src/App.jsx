@@ -1,28 +1,55 @@
-import { useState } from "react";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate
+} from "react-router-dom";
 
 import Login from "./pages/Login";
 import RiderDashboard from "./pages/RiderDashboard";
 import CaptainDashboard from "./pages/CaptainDashboard";
 
+import ProtectedRoute from "./ProtectedRoute";
+
 function App() {
 
-  const [loggedIn, setLoggedIn] = useState(
-    !!localStorage.getItem("token")
+  return (
+    <BrowserRouter>
+
+      <Routes>
+
+        <Route
+          path="/login"
+          element={<Login />}
+        />
+
+        <Route
+          path="/rider"
+          element={
+            <ProtectedRoute allowedRole="rider">
+              <RiderDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/captain"
+          element={
+            <ProtectedRoute allowedRole="captain">
+              <CaptainDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="*"
+          element={<Navigate to="/login" />}
+        />
+
+      </Routes>
+
+    </BrowserRouter>
   );
-
-  if (!loggedIn) {
-    return <Login setLoggedIn={setLoggedIn} />;
-  }
-
-  const user = JSON.parse(
-    localStorage.getItem("user")
-  );
-
-  if (user?.role === "captain") {
-    return <CaptainDashboard />;
-  }
-
-  return <RiderDashboard />;
 }
 
 export default App;

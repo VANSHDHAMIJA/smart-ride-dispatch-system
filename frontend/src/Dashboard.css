@@ -1,0 +1,70 @@
+.dashboard {
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 20px;
+}
+
+.navbar {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.nav-left h1 {
+  font-size: 24px;
+}
+
+.nav-right button {
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.input-group input {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.primary-btn {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.ride-card {
+  background: #fafafa;
+  padding: 16px;
+  border-radius: 10px;
+  margin-top: 12px;
+  border-left: 4px solid #2563eb;
+}
+
+.ride-card h4 {
+  margin-bottom: 8px;
+}
+
+.ride-card p {
+  color: #666;
+}
