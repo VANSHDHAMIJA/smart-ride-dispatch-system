@@ -10,7 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "axios": "^1.17.0",
+    "@googlemaps/polyline-codec": "^1.0.28",
+    "@react-google-maps/api": "^2.20.8",
+    "axios": "^1.18.1",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-icons": "^5.6.0",
