@@ -37,52 +37,110 @@ function RideHistory() {
 
   const displayedRides = showAll
     ? rides
-    : rides.filter(
-        (ride) => ride.status === "accepted"
-      );
+    : rides.filter((ride) => ride.status === "accepted");
 
   return (
+
     <div className="card">
 
-      <h2>My Rides</h2>
+      <div className="ride-header">
 
-      <br />
+        <h2>🚖 My Ride History</h2>
 
-      <button
-        className="primary-btn"
-        onClick={() => setShowAll(!showAll)}
-      >
-        {showAll
-          ? "Show Ongoing Only"
-          : "Show All Rides"}
-      </button>
+        <button
+          className="primary-btn"
+          onClick={() => setShowAll(!showAll)}
+        >
+          {showAll ? "Show Active Ride" : "Show All Rides"}
+        </button>
 
-      <br />
+      </div>
+
       <br />
 
       {displayedRides.length === 0 ? (
-        <p>No ongoing rides</p>
+
+        <div className="empty-state">
+
+          <h2>🚗</h2>
+
+          <h3>No Active Rides</h3>
+
+          <p>
+            Book your first ride to get started.
+          </p>
+
+        </div>
+
       ) : (
+
         displayedRides.map((ride) => (
+
           <div
             key={ride.id}
             className="ride-card"
           >
 
-            <h4>
-              {ride.pickup_location} → {ride.drop_location}
-            </h4>
+            <div className="ride-top">
 
-            <p>
-              Status: {ride.status}
-            </p>
+              <div>
+
+                <h3>
+
+                  📍 {ride.pickup_location}
+
+                </h3>
+
+                <p>
+
+                  ➜
+
+                </p>
+
+                <h3>
+
+                  🏁 {ride.drop_location}
+
+                </h3>
+
+              </div>
+
+              <span
+                className={`status ${ride.status}`}
+              >
+
+                {ride.status}
+
+              </span>
+
+            </div>
+
+            <div className="ride-bottom">
+
+              <div>
+
+                🚖 SmartRide AI Dispatch
+
+              </div>
+
+              <div>
+
+                Ride ID : {ride.id}
+
+              </div>
+
+            </div>
 
           </div>
+
         ))
+
       )}
 
     </div>
+
   );
+
 }
 
 export default RideHistory;

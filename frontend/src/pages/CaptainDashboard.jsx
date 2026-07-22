@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import CaptainTrips from "./CaptainTrips";
 import "../Dashboard.css";
-import { FaUserTie } from "react-icons/fa";
 
 function CaptainDashboard() {
 
@@ -34,6 +33,7 @@ function CaptainDashboard() {
       console.error(error);
 
     }
+
   };
 
   const acceptRide = async (rideId) => {
@@ -52,7 +52,7 @@ function CaptainDashboard() {
         }
       );
 
-      alert("Ride Accepted");
+      alert("Ride Accepted Successfully");
 
       fetchPendingRides();
 
@@ -66,6 +66,7 @@ function CaptainDashboard() {
       );
 
     }
+
   };
 
   const logout = () => {
@@ -78,46 +79,130 @@ function CaptainDashboard() {
   };
 
   return (
+
     <div className="dashboard">
 
-      <div className="navbar">
+      {/* Hero */}
 
-        <div className="nav-left">
-          <h1>
-            <FaUserTie /> Captain Dashboard
-          </h1>
+      <div className="hero">
+
+        <div>
+
+          <h1>🚖 SmartRide AI</h1>
+
+          <p>Captain Control Panel</p>
+
+          <h3>Welcome Captain 👋</h3>
+
         </div>
 
-        <div className="nav-right">
-          <button onClick={logout}>
-            Logout
-          </button>
+        <button
+          className="logout-btn"
+          onClick={logout}
+        >
+          Logout
+        </button>
+
+      </div>
+
+      {/* Stats */}
+
+      <div className="stats">
+
+        <div className="stat-card">
+          <h2>🚗</h2>
+          <h3>{rides.length}</h3>
+          <p>Pending Rides</p>
+        </div>
+
+        <div className="stat-card">
+          <h2>✅</h2>
+          <h3>42</h3>
+          <p>Completed</p>
+        </div>
+
+        <div className="stat-card">
+          <h2>💰</h2>
+          <h3>₹18,250</h3>
+          <p>Total Earnings</p>
+        </div>
+
+        <div className="stat-card">
+          <h2>⭐</h2>
+          <h3>4.9</h3>
+          <p>Rating</p>
         </div>
 
       </div>
 
+      {/* Pending Rides */}
+
       <div className="card">
 
-        <h2>Pending Rides</h2>
+        <h2>🚖 Ride Requests</h2>
 
-        <br />
+        <p>
+          AI has matched these rides based on captain availability and distance.
+        </p>
 
         {rides.length === 0 ? (
-          <p>No pending rides available</p>
+
+          <div className="empty-state">
+
+            <h2>🚗</h2>
+
+            <h3>No Pending Rides</h3>
+
+            <p>
+              New ride requests will appear here.
+            </p>
+
+          </div>
+
         ) : (
+
           rides.map((ride) => (
+
             <div
               key={ride.id}
               className="ride-card"
             >
 
-              <h4>
-                {ride.pickup_location} → {ride.drop_location}
-              </h4>
+              <div className="ride-top">
 
-              <p>
-                Status: {ride.status}
-              </p>
+                <div>
+
+                  <h3>📍 {ride.pickup_location}</h3>
+
+                  <p>↓</p>
+
+                  <h3>🏁 {ride.drop_location}</h3>
+
+                </div>
+
+                <span className="status pending">
+
+                  {ride.status}
+
+                </span>
+
+              </div>
+
+              <div className="ride-bottom">
+
+                <div>
+
+                  🤖 AI Dispatch Score : 96%
+
+                </div>
+
+                <div>
+
+                  Ride ID : {ride.id}
+
+                </div>
+
+              </div>
 
               <br />
 
@@ -125,19 +210,23 @@ function CaptainDashboard() {
                 className="primary-btn"
                 onClick={() => acceptRide(ride.id)}
               >
-                Accept Ride
+                ✅ Accept Ride
               </button>
 
             </div>
+
           ))
+
         )}
 
       </div>
 
-      <CaptainTrips />
+      <CaptainTrips refreshKey={rides.length} />
 
     </div>
+
   );
+
 }
 
 export default CaptainDashboard;

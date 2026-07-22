@@ -16,41 +16,61 @@ const mapContainerStyle = {
   borderRadius: "10px",
 };
 
-// Demo location coordinates
-// Add more locations here when needed
 const LOCATION_COORDINATES = {
-  "VIT VELLORE": {
-    lat: 12.9692,
-    lng: 79.1559,
-  },
 
-  "VIT VELLORE, TAMIL NADU": {
-    lat: 12.9692,
-    lng: 79.1559,
-  },
+"INDIA GATE": {
+lat:28.6129,
+lng:77.2295
+},
 
-  "KATPADI RAILWAY STATION": {
-    lat: 12.9723,
-    lng: 79.1384,
-  },
+"RED FORT": {
+lat:28.6562,
+lng:77.2410
+},
 
-  "KATPADI JUNCTION RAILWAY STATION": {
-    lat: 12.9723,
-    lng: 79.1384,
-  },
+"CONNAUGHT PLACE": {
+lat:28.6315,
+lng:77.2167
+},
 
-  "VELLORE FORT": {
-    lat: 12.9202,
-    lng: 79.1333,
-  },
+"NEW DELHI RAILWAY STATION": {
+lat:28.6436,
+lng:77.2192
+},
 
-  "CMC VELLORE": {
-    lat: 12.9249,
-    lng: 79.1357,
-  },
+"AIIMS DELHI": {
+lat:28.5672,
+lng:77.2100
+},
+
+"LOTUS TEMPLE": {
+lat:28.5535,
+lng:77.2588
+},
+
+"QUTUB MINAR": {
+lat:28.5244,
+lng:77.1855
+},
+
+"AKSHARDHAM TEMPLE": {
+lat:28.6127,
+lng:77.2773
+},
+
+"RAJIV CHOWK METRO STATION": {
+lat:28.6328,
+lng:77.2197
+},
+
+"DELHI AIRPORT TERMINAL 3": {
+lat:28.5562,
+lng:77.1000
+}
+
 };
 
-function CaptainTrips() {
+function CaptainTrips({ refreshKey }) {
   const [trips, setTrips] = useState([]);
   const [showAll, setShowAll] = useState(false);
 
