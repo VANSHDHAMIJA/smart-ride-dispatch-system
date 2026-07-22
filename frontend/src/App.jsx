@@ -6,13 +6,12 @@ import {
 } from "react-router-dom";
 
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 import RiderDashboard from "./pages/RiderDashboard";
 import CaptainDashboard from "./pages/CaptainDashboard";
-
 import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
-
   return (
     <BrowserRouter>
 
@@ -23,6 +22,11 @@ function App() {
           element={<Login />}
         />
 
+        <Route
+         path="/register"
+          element={<Register />}
+        />
+        
         <Route
           path="/rider"
           element={
