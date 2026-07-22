@@ -9,7 +9,15 @@ const verifyToken = require("./middleware/authMiddleware");
 const authorizeRole = require("./middleware/roleMiddleware");
 const rideRoutes = require("./routes/rideRoutes");
 const routeRoutes = require("./routes/routeRoutes");
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      process.env.FRONTEND_URL,
+    ],
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
