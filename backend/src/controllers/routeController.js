@@ -48,7 +48,7 @@ const getBestRoute = async (req, res) => {
       {
         headers: {
           "Content-Type": "application/json",
-          "X-Goog-Api-Key": process.env.GOOGLE_ROUTES_API_KEY,
+          "X-Goog-Api-Key": process.env.GOOGLE_MAPS_API_KEY,
           "X-Goog-FieldMask":
             "routes.distanceMeters,routes.duration,routes.polyline.encodedPolyline",
         },
