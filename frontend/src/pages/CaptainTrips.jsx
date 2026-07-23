@@ -131,7 +131,7 @@ function CaptainTrips({ refreshKey }) {
         localStorage.getItem("token");
 
       const response = await axios.get(
-        "${API}/api/rides/my-trips",
+        `${API}/api/rides/my-trips`,
         {
           headers: {
             Authorization:
@@ -336,7 +336,7 @@ function CaptainTrips({ refreshKey }) {
       // Call backend
       const response =
         await axios.post(
-          "${API}/api/routes/best-route",
+          `${API}/api/routes/best-route`,
           {
             origin:
               pickupCoordinates,
