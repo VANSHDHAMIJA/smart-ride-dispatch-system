@@ -1,3 +1,5 @@
+const API = import.meta.env.VITE_API_URL;
+
 import { useEffect, useState } from "react";
 import axios from "axios";
 import {
@@ -129,7 +131,7 @@ function CaptainTrips({ refreshKey }) {
         localStorage.getItem("token");
 
       const response = await axios.get(
-        "http://localhost:5000/api/rides/my-trips",
+        "${API}/api/rides/my-trips",
         {
           headers: {
             Authorization:
@@ -160,7 +162,7 @@ function CaptainTrips({ refreshKey }) {
         localStorage.getItem("token");
 
       await axios.patch(
-        `http://localhost:5000/api/rides/${rideId}/start`,
+        `${API}/api/rides/${rideId}/start`,
         {},
         {
           headers: {
@@ -201,7 +203,7 @@ function CaptainTrips({ refreshKey }) {
         localStorage.getItem("token");
 
       await axios.patch(
-        `http://localhost:5000/api/rides/${rideId}/complete`,
+        `${API}/api/rides/${rideId}/complete`,
         {},
         {
           headers: {
@@ -334,7 +336,7 @@ function CaptainTrips({ refreshKey }) {
       // Call backend
       const response =
         await axios.post(
-          "http://localhost:5000/api/routes/best-route",
+          "${API}/api/routes/best-route",
           {
             origin:
               pickupCoordinates,
