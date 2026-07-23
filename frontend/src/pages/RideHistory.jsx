@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "../Dashboard.css";
 
-function RideHistory() {
+const API = import.meta.env.VITE_API_URL;
 
+function RideHistory() {
   const [rides, setRides] = useState([]);
   const [showAll, setShowAll] = useState(false);
 
@@ -12,26 +13,21 @@ function RideHistory() {
   }, []);
 
   const fetchRides = async () => {
-
     try {
-
       const token = localStorage.getItem("token");
 
       const response = await axios.get(
-        "http://localhost:5000/api/rides/my-rides",
+        `${API}/api/rides/my-rides`,
         {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
       setRides(response.data);
-
     } catch (error) {
-
       console.error(error);
-
     }
   };
 
@@ -40,11 +36,8 @@ function RideHistory() {
     : rides.filter((ride) => ride.status === "accepted");
 
   return (
-
     <div className="card">
-
       <div className="ride-header">
-
         <h2>🚖 My Ride History</h2>
 
         <button
@@ -53,94 +46,50 @@ function RideHistory() {
         >
           {showAll ? "Show Active Ride" : "Show All Rides"}
         </button>
-
       </div>
 
       <br />
 
       {displayedRides.length === 0 ? (
-
         <div className="empty-state">
-
           <h2>🚗</h2>
 
           <h3>No Active Rides</h3>
 
-          <p>
-            Book your first ride to get started.
-          </p>
-
+          <p>Book your first ride to get started.</p>
         </div>
-
       ) : (
-
         displayedRides.map((ride) => (
-
           <div
             key={ride.id}
             className="ride-card"
           >
-
             <div className="ride-top">
-
               <div>
+                <h3>📍 {ride.pickup_location}</h3>
 
-                <h3>
+                <p>➜</p>
 
-                  📍 {ride.pickup_location}
-
-                </h3>
-
-                <p>
-
-                  ➜
-
-                </p>
-
-                <h3>
-
-                  🏁 {ride.drop_location}
-
-                </h3>
-
+                <h3>🏁 {ride.drop_location}</h3>
               </div>
 
               <span
                 className={`status ${ride.status}`}
               >
-
                 {ride.status}
-
               </span>
-
             </div>
 
             <div className="ride-bottom">
+              <div>🚖 SmartRide AI Dispatch</div>
 
-              <div>
-
-                🚖 SmartRide AI Dispatch
-
-              </div>
-
-              <div>
-
-                Ride ID : {ride.id}
-
-              </div>
-
+              <div>Ride ID : {ride.id}</div>
             </div>
-
           </div>
-
         ))
-
       )}
-
     </div>
-
   );
-
 }
 
 export default RideHistory;
